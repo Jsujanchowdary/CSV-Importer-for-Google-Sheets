@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base target="_top">
+    <title>Upload CSV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form>
+            <label for="csvFile">
+                <input type="file" name="csvFile" id="csvFile" accept=".csv" class="file-input">
+                <span class="custom-file-upload">Choose CSV File</span>
+            </label>
+            <input type="button" value="Upload" onclick="uploadFile()" class="custom-file-upload">
+        </form>
+    </div>
+
+    <script>
+        function uploadFile() {
+            var fileInput = document.getElementById('csvFile');
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                google.script.run.importCSVData(e.target.result);
+                google.script.host.close();
+            };
+
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
